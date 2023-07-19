@@ -23,6 +23,8 @@ from langchain.tools.youtube.base import YouTubeBaseTool
 
 
 class YouTubeSearchTool(BaseTool):
+    """Tool that queries YouTube."""
+
     name = "youtube_search"
     description = (
         "search for youtube videos associated with a person. "
