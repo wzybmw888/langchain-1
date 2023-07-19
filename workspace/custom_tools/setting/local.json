@@ -1,0 +1,17 @@
+{
+    "youtube_local_port": 8080,
+    "http_proxy": "http://127.0.0.1:22307",
+    "https_proxy": "https://127.0.0.1:22307",
+    "db": "mysql",
+    "database": "mict",
+    "username": "root",
+    "password": "123456",
+    "host": "localhost",
+    "port": "3306",
+    "csv_address": "E:/web3/MICT/static",
+    "max_nums": 50,
+    "begin_time": "2023-1-1",
+    "Top_blogger_num": 5,
+    "blogger_video_num": 5,
+    "filter_store_num": 10
+}

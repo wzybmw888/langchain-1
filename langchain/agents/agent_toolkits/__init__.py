@@ -36,6 +36,7 @@ from langchain.agents.agent_toolkits.vectorstore.toolkit import (
     VectorStoreToolkit,
 )
 from langchain.agents.agent_toolkits.xorbits.base import create_xorbits_agent
+from langchain.agents.agent_toolkits.youtube.toolkit import YouTubeToolkit
 from langchain.agents.agent_toolkits.zapier.toolkit import ZapierToolkit
 
 __all__ = [
@@ -68,4 +69,5 @@ __all__ = [
     "AzureCognitiveServicesToolkit",
     "O365Toolkit",
     "create_xorbits_agent",
+    "YouTubeToolkit"
 ]
