@@ -30,7 +30,7 @@ class TrendSearchSchema(BaseModel):
 class GoogleTrendSearch(BaseTool):
     name: str = "google_trend_search"
     description: str = (
-        "Use this tool to search related google trend with the provided message fields."
+        "Use this tool to search related keyword's google trend"
     )
     args_schema: Type[TrendSearchSchema] = TrendSearchSchema
 

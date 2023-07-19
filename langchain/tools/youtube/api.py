@@ -9,21 +9,10 @@ import datetime
 
 class YoutubeAPI(ABC):
     def __init__(self):
-        # 加载credentials
+        # load credentials
         self.youtube = build_resource_service()
 
     def insert_subscriptions(self, channelId: str) -> Any:
-        """
-        为经过身份验证的用户的频道添加订阅。
-        :param part 参数在此操作中有两个目的。它标识了写入操作将设置的属性以及 API 响应将包含的属性。
-                以下列表包含您可以在参数值中包含的 part 名称：
-                contentDetails
-                id
-                snippet
-                subscriberSnippet
-        :param channelId 要订阅的博主的channelId
-        :return:
-        """
         request = self.youtube.subscriptions().insert(
             part="snippet",
             body={
@@ -43,7 +32,6 @@ class YoutubeAPI(ABC):
     def delete_subscriptions(self, **kwargs) -> dict:
         """
         https://developers.google.com/youtube/v3/docs/subscriptions/delete?hl=zh-cn
-        配额影响：调用此方法的配额费用为 50 个单位。
         """
         request = self.youtube.subscriptions().delete(
             **kwargs
@@ -57,7 +45,6 @@ class YoutubeAPI(ABC):
     def list_subscriptions(self, **kwargs) -> dict:
         """
         https://developers.google.com/youtube/v3/docs/subscriptions/list?hl=zh-cn
-        配额影响：调用此方法的配额费用为 1 个单位。
         """
         request = self.youtube.subscriptions().list(
             **kwargs
@@ -87,8 +74,6 @@ class YoutubeAPI(ABC):
     def videos(self, **kwargs):
         """
         https://developers.google.com/youtube/v3/docs/videos/list?hl=zh-cn
-        返回与 API 请求参数匹配的视频列表。
-        配额影响：调用此方法的配额费用为 1 个单位。
         :return:
         """
         request = self.youtube.videos().list(
@@ -105,8 +90,6 @@ class YoutubeAPI(ABC):
     def channels(self, **kwargs):
         """
             https://developers.google.com/youtube/v3/docs/channels/list?hl=zh-cn
-            返回零个或多个符合请求条件的 channel 资源的集合。
-            配额影响：调用此方法的配额费用为 1 个单位。
             :return:
         """
         request = self.youtube.channels().list(
@@ -127,12 +110,8 @@ class YouTubeAPIOperate(YoutubeAPI):
 
     def delete_all_subscriptions(self):
         res = self.list_subscriptions_by_mine()
-        ids = []
-        items = res["items"]
-        for item in items:
-            ids.append(item.get("id"))
-        for id in ids:
-            self.delete_signal_subscriptions_by_Id(id)
+        for item in res["items"]:
+            self.delete_signal_subscriptions_by_Id(item.get("id"))
 
     def delete_signal_subscriptions_by_Id(self, id: str):
         return self.delete_subscriptions(id=id)
@@ -142,22 +121,22 @@ class YouTubeAPIOperate(YoutubeAPI):
 
     def list_subscriptions_by_channelId(self, channelId: str):
         """
-        :param channelId 参数用于指定 YouTube 频道 ID。API 将仅返回此频道的订阅。
+        :param channelId The channelId parameter is used to specify the YouTube channel ID. The API will only return subscriptions for this channel.
         :return:
         """
-        return self.list_subscriptions(part="snippet", channelId=channelId)
+        return self.list_subscriptions(part="snippet", channelId=channelId, maxResults=50)
 
     def list_subscriptions_by_mine(self):
         """
-        :param mine 此参数只能在正确的授权请求中使用。将此参数的值设为 true，以检索已验证用户的订阅的 Feed。
+        :param mine This parameter can only be used in the correct authorization request. Set the value of this parameter to true to retrieve the Feed of the verified user's subscription.
         :return:
         """
-        return self.list_subscriptions(part="snippet", mine=True)
+        return self.list_subscriptions(part="snippet", mine=True, maxResults=50)
 
     def list_subscriptions_by_Id(self, id: str):
         """
-            id 参数指定要检索的资源的 YouTube 订阅 ID 列表（以英文逗号分隔）。在 subscription 资源中，id 属性用于指定 YouTube 订阅 ID。
-            :return:
+        The ID parameter specifies a list of YouTube subscription ids (separated by commas) for the resource to retrieve.
+        In the subscription resource, the id attribute is used to specify the YouTube subscription ID.
         """
         return self.list_subscriptions(part="snippet", id=id)
 
@@ -179,16 +158,16 @@ class YouTubeAPIOperate(YoutubeAPI):
 
     def videos_by_videoId(self, videoId: str):
         """
-        返回与 API 请求参数匹配的视频列表。
-        配额影响：调用此方法的配额费用为 1 个单位。
-        :param videoId:
+        Returns a list of videos that match the API request parameters.
+        Quota impact: The quota cost for calling this method is 1 unit.
+        :param videoId: the id of video
         :return:
         """
         return self.videos(part="statistics", id=videoId)
 
     def channel_by_channelId(self, channelId: str):
         """
-        :param channelId:
+        :param channelId: the channelId of channel
         :return:
         """
         return self.channels(part="statistics", id=channelId)

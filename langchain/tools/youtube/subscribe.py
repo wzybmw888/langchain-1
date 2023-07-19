@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 class SubscribeSchema(BaseModel):
     channelId: str = Field(
         ...,
-        description="The id of the blogger channel",
+        description="The channelId of the blogger channel",
     )
 
 

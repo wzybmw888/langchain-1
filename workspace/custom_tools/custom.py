@@ -338,16 +338,13 @@ class YouTubeCustom(YouTubeBaseTool):
         # # 根据得分进行一次过滤，获取主动搜索的视频信息
         new_data = fetch_data_by_q(loader, q, max_nums, begin_time)
         data = merge_dicts(data, new_data)
-        # 从视频中筛选5个粉丝多的博主
+        # 从视频中筛选N个粉丝多的博主
         channelIds = data.get("channelId")
         Top_channelIds = filter_blogger(loader, channelIds=channelIds, TopN=Top_blogger_num)
-        # 已经关注的博主
-        sub_channelIds = already_subscriptions(loader)
-        # 求差集。添加没有关注的博主
-        diff_set = set(Top_channelIds) - set(sub_channelIds)
-        diff_Top_channelIds = list(diff_set)
-        # 关注博主
-        for channelId in diff_Top_channelIds:
+        # 删除所有关注的博主
+        loader.delete_all_subscriptions()
+        # 关注新博主
+        for channelId in Top_channelIds:
             print(f"{channelId}关注成功")
             loader.insert_subscriptions_by_channelId(channelId=channelId)
 
@@ -370,3 +367,6 @@ class YouTubeCustom(YouTubeBaseTool):
             channelId: str,
     ) -> str:
         raise NotImplementedError(f"The tool {self.name} does not support async yet.")
+
+
+

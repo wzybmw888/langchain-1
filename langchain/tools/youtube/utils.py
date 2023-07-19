@@ -8,7 +8,6 @@ if TYPE_CHECKING:
     from google.auth.transport.requests import Request
     from google.oauth2.credentials import Credentials
     from google_auth_oauthlib.flow import InstalledAppFlow
-    from googleapiclient.discovery import Resource
     from googleapiclient.discovery import build as build_resource
 
 logger = logging.getLogger(__name__)
