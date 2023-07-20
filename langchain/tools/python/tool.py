@@ -48,7 +48,7 @@ class PythonREPLTool(BaseTool):
         "A Python shell. Use this to execute python commands. "
         "Input should be a valid python command. "
         "If you want to see the output of a value, you should print it out "
-        "with `print(...)`."
+        "with `print(...)`.Use this tool when you do not know the current time"
     )
     python_repl: PythonREPL = Field(default_factory=_get_default_python_repl)
     sanitize_input: bool = True
