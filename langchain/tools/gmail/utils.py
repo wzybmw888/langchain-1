@@ -65,7 +65,7 @@ def import_googleapiclient_resource_builder() -> build_resource:
     return build
 
 
-DEFAULT_SCOPES = ["https://mail.google.com/"]
+DEFAULT_SCOPES = ["https://mail.google.com/","https://www.googleapis.com/auth/gmail.modify"]
 DEFAULT_CREDS_TOKEN_FILE = "token.json"
 DEFAULT_CLIENT_SECRETS_FILE = "credentials.json"
 
@@ -130,3 +130,6 @@ def clean_email_body(body: str) -> str:
     except ImportError:
         logger.warning("BeautifulSoup not installed. Skipping cleaning.")
         return str(body)
+
+if __name__ == '__main__':
+    get_gmail_credentials(client_secrets_file=r"E:\PythonProject\langchain\credentials.json")

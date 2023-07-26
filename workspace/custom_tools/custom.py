@@ -6,6 +6,7 @@
 4. 数据库推送
 """
 import datetime
+import json
 
 import numpy as np
 import pandas as pd
@@ -315,7 +316,7 @@ class CustomSchema(BaseModel):
 class YouTubeCustom(YouTubeBaseTool):
     name: str = "youtube_custom"
     description: str = (
-        "Use this tool to save youtube videos of interest in the database "
+        "Use this tool to search youtube videos and save them in a database and display the videos raw information"
     )
     args_schema: Type[CustomSchema] = CustomSchema
 
@@ -360,7 +361,9 @@ class YouTubeCustom(YouTubeBaseTool):
         # 写入数据库
         write_database(data1, flag=True)
         write_database(data2, flag=False)
-        return "The task is complete and saved to the database"
+
+        json_data = json.dumps(data1)
+        return f"The task is complete and saved to the database,and raw information are {json_data}"
 
     async def _arun(
             self,
